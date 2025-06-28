@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://bk4n30o3ljfug"]
+
+[ext_resource type="Script" path="res://scripts/screen.gd" id="1_u8yql"]
+[ext_resource type="Shader" path="res://shader/dither.gdshader" id="4_ynifi"]
+[ext_resource type="Texture2D" uid="uid://dql81q3y6xpj" path="res://shader/assets/palette_worm.png" id="5_ydc2q"]
+[ext_resource type="Texture2D" uid="uid://d2q0t4cjcym6o" path="res://shader/assets/bayer16tile2.png" id="6_jcxvg"]
+[ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="9_6nt26"]
+[ext_resource type="PackedScene" uid="uid://1qw6l8onddv" path="res://scenes/windows/window_connections.tscn" id="9_pwwpp"]
+[ext_resource type="Script" path="res://scripts/console.gd" id="9_uwm73"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_glgxu"]
+shader = ExtResource("4_ynifi")
+shader_parameter/u_bit_depth = 256
+shader_parameter/u_contrast = 0.7
+shader_parameter/u_offset = -0.3
+shader_parameter/u_dither_size = 1
+shader_parameter/u_dither_tex = ExtResource("6_jcxvg")
+shader_parameter/u_color_tex = ExtResource("5_ydc2q")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_6nt26")
+script = ExtResource("1_u8yql")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_glgxu")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0491945, 0.0574225, 0.0662355, 1)
+
+[node name="Console" type="TextEdit" parent="SubViewportContainer/SubViewport"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_6nt26")
+placeholder_text = "Enter command..."
+wrap_mode = 1
+indent_wrapped_lines = true
+caret_type = 1
+caret_blink = true
+script = ExtResource("9_uwm73")
+
+[node name="WindowConnections" parent="SubViewportContainer/SubViewport" instance=ExtResource("9_pwwpp")]
+
+[connection signal="focus_entered" from="SubViewportContainer/SubViewport/Console" to="SubViewportContainer/SubViewport/Console" method="_on_focus_entered"]
+[connection signal="focus_exited" from="SubViewportContainer/SubViewport/Console" to="SubViewportContainer/SubViewport/Console" method="_on_focus_exited"]

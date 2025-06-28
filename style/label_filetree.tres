@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://b2djibo2xsboh"]
+
+[ext_resource type="FontFile" uid="uid://cfrjh8tsnucol" path="res://style/YujiSyuku-Regular.ttf" id="1_5evfd"]
+
+[resource]
+font = ExtResource("1_5evfd")
+font_size = 20

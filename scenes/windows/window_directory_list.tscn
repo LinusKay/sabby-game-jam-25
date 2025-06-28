@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://chmrvudiy7mj7"]
+
+[ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="1_34vdw"]
+[ext_resource type="FontFile" uid="uid://cfrjh8tsnucol" path="res://style/YujiSyuku-Regular.ttf" id="2_7mrsi"]
+[ext_resource type="Script" path="res://scripts/window_directory_list.gd" id="3_8t152"]
+
+[node name="WindowDirectoryList" type="Window"]
+auto_translate_mode = 1
+title = "Directory List - PLACEHOLDER [Read Only]"
+position = Vector2i(0, 36)
+size = Vector2i(500, 300)
+theme = ExtResource("1_34vdw")
+theme_override_fonts/title_font = ExtResource("2_7mrsi")
+script = ExtResource("3_8t152")
+
+[node name="DirectoryList" type="ItemList" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_34vdw")
+allow_reselect = true
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="item_activated" from="DirectoryList" to="." method="_on_directory_list_item_activated"]

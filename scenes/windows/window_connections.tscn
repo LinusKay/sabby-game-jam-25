@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://1qw6l8onddv"]
+
+[ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="1_wk3mc"]
+[ext_resource type="FontFile" uid="uid://cfrjh8tsnucol" path="res://style/YujiSyuku-Regular.ttf" id="2_fx11y"]
+[ext_resource type="Script" path="res://scripts/connection_list.gd" id="3_4auf7"]
+[ext_resource type="Script" path="res://scripts/window_connections.gd" id="3_rdgtd"]
+
+[node name="WindowConnections" type="Window"]
+auto_translate_mode = 1
+title = "Connections"
+initial_position = 2
+size = Vector2i(600, 300)
+theme = ExtResource("1_wk3mc")
+theme_override_fonts/title_font = ExtResource("2_fx11y")
+script = ExtResource("3_rdgtd")
+
+[node name="ConnectionList" type="ItemList" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_wk3mc")
+allow_reselect = true
+max_text_lines = 3
+max_columns = 8
+same_column_width = true
+fixed_column_width = 70
+icon_mode = 0
+script = ExtResource("3_4auf7")
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="item_activated" from="ConnectionList" to="ConnectionList" method="_on_item_activated"]

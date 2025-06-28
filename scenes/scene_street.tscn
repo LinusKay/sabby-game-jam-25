@@ -1,0 +1,161 @@
+[gd_scene load_steps=15 format=3 uid="uid://cdlcpve0poxpt"]
+
+[ext_resource type="PackedScene" uid="uid://7jp1xska3d7w" path="res://scenes/models/house.tscn" id="1_66qwu"]
+[ext_resource type="Script" path="res://scripts/light_flicker.gd" id="2_2n04y"]
+[ext_resource type="Texture2D" uid="uid://bfiserp5a8woy" path="res://materials/sky/satara_night_1k.exr" id="2_re6sk"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_fk2ew"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 70.0
+dof_blur_far_transition = 10.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7fdws"]
+
+[sub_resource type="Animation" id="Animation_13r5s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a0rsb"]
+resource_name = "spin"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5khdr"]
+_data = {
+"RESET": SubResource("Animation_13r5s"),
+"spin": SubResource("Animation_a0rsb")
+}
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x40uv"]
+size = Vector2(20, 10)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tku5k"]
+noise_type = 0
+frequency = 0.436
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_83jer"]
+noise = SubResource("FastNoiseLite_tku5k")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_i8sur"]
+panorama = ExtResource("2_re6sk")
+
+[sub_resource type="Sky" id="Sky_1paio"]
+sky_material = SubResource("PanoramaSkyMaterial_i8sur")
+
+[sub_resource type="Environment" id="Environment_xycl6"]
+background_mode = 2
+sky = SubResource("Sky_1paio")
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.42
+glow_enabled = true
+
+[node name="Scene" type="Node3D"]
+
+[node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(0.323339, -0.260313, -0.909774, 0.135531, 0.964246, -0.22773, 0.936527, -0.0496689, 0.347059, -18.539, 3, 1)
+attributes = SubResource("CameraAttributesPractical_fk2ew")
+fov = 44.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.05988, 3.43402, -5)
+mesh = SubResource("CylinderMesh_7fdws")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewport/MeshInstance3D"]
+libraries = {
+"": SubResource("AnimationLibrary_5khdr")
+}
+autoplay = "spin"
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewport"]
+transform = Transform3D(10.6059, 0, 0, 0, 2.00112, 0, 0, 0, 11.0062, 0.00958884, 0, -0.00579524)
+mesh = SubResource("PlaneMesh_x40uv")
+
+[node name="Houses" type="Node3D" parent="SubViewport"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -32.9559, 0, -15.4625)
+
+[node name="house2" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+
+[node name="house3" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="house4" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="house5" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)
+
+[node name="house6" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+
+[node name="house7" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+
+[node name="house8" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20.2, 0, 0)
+
+[node name="house9" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20.2, 0, 2.4)
+
+[node name="house10" parent="SubViewport/Houses" instance=ExtResource("1_66qwu")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 20.2, 0, 4.6)
+
+[node name="Lighting" type="Node3D" parent="SubViewport"]
+
+[node name="DoorLight" type="OmniLight3D" parent="SubViewport/Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.30521, 3.23872, -11.8968)
+light_energy = 10.488
+shadow_enabled = true
+script = ExtResource("2_2n04y")
+noise = SubResource("NoiseTexture3D_83jer")
+flicker_min = 8.0
+
+[node name="WindowLight" type="OmniLight3D" parent="SubViewport/Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.6948, 8.23872, -8.8968)
+light_energy = 10.488
+shadow_enabled = true
+
+[node name="StreetLight" type="SpotLight3D" parent="SubViewport/Lighting"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 39.6773, 11.4039, 2.49926)
+spot_range = 16.006
+spot_attenuation = -0.05
+spot_angle = 42.32
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport/Lighting"]
+environment = SubResource("Environment_xycl6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport/Lighting"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, -0.364164, 0.203626, -0.908802, 0.342619, -0.878085, -0.334034, 0, 0, 0)
+light_energy = 0.0
+light_indirect_energy = 0.0
+shadow_enabled = true

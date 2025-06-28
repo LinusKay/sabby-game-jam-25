@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dua5bv8omg16r"]
+
+[ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="1_dlvp3"]
+[ext_resource type="Script" path="res://scripts/window_photo.gd" id="2_nnwss"]
+[ext_resource type="FontFile" uid="uid://cfrjh8tsnucol" path="res://style/YujiSyuku-Regular.ttf" id="2_usjfm"]
+[ext_resource type="Texture2D" uid="uid://cgv0yatj3lew8" path="res://sprites/image-tango-feet.png" id="3_ixtdl"]
+
+[node name="WindowPhoto" type="Window"]
+auto_translate_mode = 1
+title = "sdfsdf"
+initial_position = 2
+size = Vector2i(300, 300)
+theme = ExtResource("1_dlvp3")
+theme_override_fonts/title_font = ExtResource("2_usjfm")
+script = ExtResource("2_nnwss")
+photo = ExtResource("3_ixtdl")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 5
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]

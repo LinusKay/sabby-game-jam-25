@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://b7shtnemt6mve"]
+
+[ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="1_3xcir"]
+[ext_resource type="Script" path="res://scripts/window_camera.gd" id="2_a5wid"]
+[ext_resource type="FontFile" uid="uid://cfrjh8tsnucol" path="res://style/YujiSyuku-Regular.ttf" id="2_k4qck"]
+[ext_resource type="Shader" path="res://shader/dither.gdshader" id="3_8p8ry"]
+[ext_resource type="Texture2D" uid="uid://dql81q3y6xpj" path="res://shader/assets/palette_worm.png" id="4_kog05"]
+[ext_resource type="Texture2D" uid="uid://d2q0t4cjcym6o" path="res://shader/assets/bayer16tile2.png" id="5_n6jhp"]
+[ext_resource type="Script" path="res://scripts/scene_screen.gd" id="6_3kelh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_glgxu"]
+shader = ExtResource("3_8p8ry")
+shader_parameter/u_bit_depth = 256
+shader_parameter/u_contrast = 1.0
+shader_parameter/u_offset = -0.3
+shader_parameter/u_dither_size = 1
+shader_parameter/u_dither_tex = ExtResource("5_n6jhp")
+shader_parameter/u_color_tex = ExtResource("4_kog05")
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_g5acv"]
+
+[node name="WindowCamera" type="Window"]
+auto_translate_mode = 1
+title = "scenescreen - view_a1"
+initial_position = 2
+size = Vector2i(400, 200)
+theme = ExtResource("1_3xcir")
+theme_override_fonts/title_font = ExtResource("2_k4qck")
+script = ExtResource("2_a5wid")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_glgxu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(400, 200)
+render_target_update_mode = 4
+
+[node name="SceneScreen" type="TextureRect" parent="SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("PlaceholderTexture2D_g5acv")
+expand_mode = 5
+script = ExtResource("6_3kelh")
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]

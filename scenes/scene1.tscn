@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://de3pqqncyey3d"]
+
+[ext_resource type="Shader" path="res://shader/dither.gdshader" id="1_so8qp"]
+[ext_resource type="Texture2D" uid="uid://b0sq12udmtoe8" path="res://shader/assets/palette_hollow.png" id="2_dwln2"]
+[ext_resource type="Texture2D" uid="uid://d2q0t4cjcym6o" path="res://shader/assets/bayer16tile2.png" id="3_1326j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2um2i"]
+shader = ExtResource("1_so8qp")
+shader_parameter/u_bit_depth = 64
+shader_parameter/u_contrast = 0.0
+shader_parameter/u_offset = null
+shader_parameter/u_dither_size = 4
+shader_parameter/u_dither_tex = ExtResource("3_1326j")
+shader_parameter/u_color_tex = ExtResource("2_dwln2")
+
+[sub_resource type="BoxMesh" id="BoxMesh_0rf2i"]
+
+[sub_resource type="Animation" id="Animation_custt"]
+resource_name = "spin"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 6.28319)]
+}
+
+[sub_resource type="Animation" id="Animation_lfk7i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aqgg1"]
+_data = {
+"RESET": SubResource("Animation_lfk7i"),
+"spin": SubResource("Animation_custt")
+}
+
+[node name="Scene1" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_2um2i")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+mesh = SubResource("BoxMesh_0rf2i")
+skeleton = NodePath("../../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
+libraries = {
+"": SubResource("AnimationLibrary_aqgg1")
+}
+autoplay = "spin"
