@@ -7,6 +7,7 @@
 
 [node name="WindowConnections" type="Window"]
 auto_translate_mode = 1
+handle_input_locally = false
 title = "Connections"
 initial_position = 2
 size = Vector2i(600, 300)

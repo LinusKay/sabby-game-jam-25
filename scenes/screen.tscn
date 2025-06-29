@@ -1,12 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://bk4n30o3ljfug"]
+[gd_scene load_steps=12 format=3 uid="uid://bk4n30o3ljfug"]
 
 [ext_resource type="Script" path="res://scripts/screen.gd" id="1_u8yql"]
 [ext_resource type="Shader" path="res://shader/dither.gdshader" id="4_ynifi"]
-[ext_resource type="Texture2D" uid="uid://dql81q3y6xpj" path="res://shader/assets/palette_worm.png" id="5_ydc2q"]
+[ext_resource type="Texture2D" uid="uid://bbpfrl8nb8a2k" path="res://shader/assets/palette_rising_sun.png" id="5_5p011"]
 [ext_resource type="Texture2D" uid="uid://d2q0t4cjcym6o" path="res://shader/assets/bayer16tile2.png" id="6_jcxvg"]
+[ext_resource type="Script" path="res://scripts/sub_viewport_container.gd" id="6_t2cni"]
+[ext_resource type="Texture2D" uid="uid://cgv0yatj3lew8" path="res://sprites/image-tango-feet.png" id="8_bkykc"]
 [ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="9_6nt26"]
-[ext_resource type="PackedScene" uid="uid://1qw6l8onddv" path="res://scenes/windows/window_connections.tscn" id="9_pwwpp"]
 [ext_resource type="Script" path="res://scripts/console.gd" id="9_uwm73"]
+[ext_resource type="Script" path="res://scripts/desktop_icon_connect.gd" id="10_ijbvd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_glgxu"]
 shader = ExtResource("4_ynifi")
@@ -15,7 +17,11 @@ shader_parameter/u_contrast = 0.7
 shader_parameter/u_offset = -0.3
 shader_parameter/u_dither_size = 1
 shader_parameter/u_dither_tex = ExtResource("6_jcxvg")
-shader_parameter/u_color_tex = ExtResource("5_ydc2q")
+shader_parameter/u_color_tex = ExtResource("5_5p011")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_puoe0"]
+atlas = ExtResource("8_bkykc")
+region = Rect2(624, 609, 22, 22)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -35,10 +41,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 stretch = true
+script = ExtResource("6_t2cni")
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
+audio_listener_enable_3d = true
+physics_object_picking = true
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
@@ -65,7 +75,28 @@ caret_type = 1
 caret_blink = true
 script = ExtResource("9_uwm73")
 
-[node name="WindowConnections" parent="SubViewportContainer/SubViewport" instance=ExtResource("9_pwwpp")]
+[node name="DesktopIconConnect" type="ItemList" parent="SubViewportContainer/SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -50.0
+offset_right = 45.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+allow_reselect = true
+item_count = 1
+icon_mode = 0
+icon_scale = 2.0
+item_0/text = "CONNECT"
+item_0/icon = SubResource("AtlasTexture_puoe0")
+script = ExtResource("10_ijbvd")
 
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="gui_input" from="SubViewportContainer" to="SubViewportContainer" method="_on_gui_input"]
 [connection signal="focus_entered" from="SubViewportContainer/SubViewport/Console" to="SubViewportContainer/SubViewport/Console" method="_on_focus_entered"]
 [connection signal="focus_exited" from="SubViewportContainer/SubViewport/Console" to="SubViewportContainer/SubViewport/Console" method="_on_focus_exited"]
+[connection signal="item_activated" from="SubViewportContainer/SubViewport/DesktopIconConnect" to="SubViewportContainer/SubViewport/DesktopIconConnect" method="_on_item_activated"]

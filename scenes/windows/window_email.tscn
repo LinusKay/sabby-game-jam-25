@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmfu1h434311o"]
+
+[ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="1_nynvv"]
+[ext_resource type="Script" path="res://scripts/window_email.gd" id="2_2ypuq"]
+
+[node name="WindowEmail" type="Window"]
+auto_translate_mode = 1
+position = Vector2i(0, 24)
+size = Vector2i(700, 500)
+theme = ExtResource("1_nynvv")
+script = ExtResource("2_2ypuq")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EmailList" type="VBoxContainer" parent="HSplitContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ScrollContainer2"]
+layout_mode = 2
+
+[node name="LabelSubject" type="Label" parent="HSplitContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Email Subject"
+
+[node name="LabelFrom" type="Label" parent="HSplitContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Email From"
+
+[node name="LabelTo" type="Label" parent="HSplitContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Email To"
+
+[node name="LabelTime" type="Label" parent="HSplitContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Email Time"
+
+[node name="LabelCC" type="Label" parent="HSplitContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Email CC"
+
+[node name="LabelAttachments" type="Label" parent="HSplitContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Email Attachments"
+
+[node name="LabelContent" type="Label" parent="HSplitContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Email Content"

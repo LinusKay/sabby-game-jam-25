@@ -44,4 +44,5 @@ shadow_mesh = SubResource("ArrayMesh_b8xch")
 [node name="house2" instance=ExtResource("1_iao1w")]
 
 [node name="house" parent="." index="0"]
+layers = 2
 mesh = SubResource("ArrayMesh_iw4am")

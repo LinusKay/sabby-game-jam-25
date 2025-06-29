@@ -14,3 +14,9 @@ func _process(delta: float) -> void:
 
 func _on_close_requested() -> void:
 	queue_free()
+
+# Manually pass click to child SubViewportContainer
+func _on_window_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		print("click WindowCamera")
+		$SubViewportContainer._on_gui_input(event)

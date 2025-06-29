@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bkqoexkuv71gv"]
+
+[ext_resource type="Script" path="res://scenes/windows/components/email_preview.gd" id="1_m8p2l"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6umv4"]
+line_spacing = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_vwm44"]
+line_spacing = 0.0
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_ukunl"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_wvpoc"]
+font_size = 12
+
+[node name="VBoxContainer" type="VBoxContainer"]
+script = ExtResource("1_m8p2l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="LabelSubject" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Email Subject"
+label_settings = SubResource("LabelSettings_6umv4")
+
+[node name="LabelTime" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "28/06/2025 6:51 PM"
+label_settings = SubResource("LabelSettings_vwm44")
+
+[node name="LabelSender" type="Label" parent="."]
+layout_mode = 2
+text = "sender@sender.com"
+label_settings = SubResource("LabelSettings_ukunl")
+
+[node name="LabelPreview" type="Label" parent="."]
+layout_mode = 2
+text = "This is a PLACHOLDER email you should not be seeing this"
+label_settings = SubResource("LabelSettings_wvpoc")

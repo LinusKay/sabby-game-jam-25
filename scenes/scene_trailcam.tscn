@@ -1,0 +1,234 @@
+[gd_scene load_steps=14 format=3 uid="uid://c2c6uxhcyy0fa"]
+
+[ext_resource type="Texture2D" uid="uid://bfiserp5a8woy" path="res://materials/sky/satara_night_1k.exr" id="1_3p0ty"]
+[ext_resource type="PackedScene" uid="uid://c4opnd8jh6snm" path="res://models/tree/tree.glb" id="2_r62b6"]
+[ext_resource type="AudioStream" uid="uid://ci435tjbqvbfp" path="res://audio/sfx/birds-chirping-363659.mp3" id="3_6gkcm"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_egqcf"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7fdws"]
+
+[sub_resource type="Animation" id="Animation_13r5s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a0rsb"]
+resource_name = "spin"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 6.28319)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5khdr"]
+_data = {
+"RESET": SubResource("Animation_13r5s"),
+"spin": SubResource("Animation_a0rsb")
+}
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x40uv"]
+size = Vector2(20, 10)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_i8sur"]
+panorama = ExtResource("1_3p0ty")
+
+[sub_resource type="Sky" id="Sky_1paio"]
+sky_material = SubResource("PanoramaSkyMaterial_i8sur")
+
+[sub_resource type="Environment" id="Environment_xycl6"]
+background_mode = 2
+sky = SubResource("Sky_1paio")
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.42
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.234518, 0.257582, 0.29384, 1)
+fog_density = 0.02
+
+[sub_resource type="LabelSettings" id="LabelSettings_21sg1"]
+outline_size = 3
+
+[node name="Scene" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+audio_listener_enable_3d = true
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.870387, -0.174057, -0.460576, 0.167239, 0.984328, -0.055942, 0.463095, -0.0283353, 0.885856, -19.8028, 0.124828, 0.337045)
+attributes = SubResource("CameraAttributesPractical_egqcf")
+fov = 49.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+transform = Transform3D(1, -5.30854e-08, 0, 4.56348e-08, 1, 1.86265e-09, 0, 1.86265e-09, 1, -3.9068, 0.239044, -7.47332)
+light_energy = 7.756
+omni_range = 11.892
+omni_attenuation = -0.2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.05988, 3.43402, -5)
+mesh = SubResource("CylinderMesh_7fdws")
+skeleton = NodePath("../../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
+libraries = {
+"": SubResource("AnimationLibrary_5khdr")
+}
+autoplay = "spin"
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(10.3602, -0.428244, 0, 2.26969, 1.95476, 0, 0, 0, 11.0062, 0.00958884, -0.624824, 0.580155)
+mesh = SubResource("PlaneMesh_x40uv")
+
+[node name="Lighting" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Lighting"]
+environment = SubResource("Environment_xycl6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Lighting"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, -0.364164, 0.203626, -0.908802, 0.342619, -0.878085, -0.334034, 0, 0, 0)
+light_energy = 0.0
+light_indirect_energy = 0.0
+shadow_enabled = true
+
+[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="tree2" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(1.10761, -0.016716, 0, 0.0170903, 1.08335, 0, 0, 0, 1.20174, -12.893, -3.47174, 0.698928)
+
+[node name="tree8" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(1.10761, -0.016716, 0, 0.0170903, 1.08335, 0, 0, 0, 1.20174, -7.89296, -3.47174, 0.698928)
+
+[node name="tree9" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(3.13388, -0.165911, 0.031194, 0.386217, 1.34535, -0.289784, 0.00353817, 0.0987002, 4.00237, -7.89296, -3.47174, -11.3011)
+
+[node name="tree10" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(3.13388, -0.165911, 0.031194, 0.386217, 1.34535, -0.289784, 0.00353817, 0.0987002, 4.00237, 2.10704, -3.47174, -11.3011)
+
+[node name="tree11" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(2.87705, -0.191418, -1.55402, 0.386217, 1.34535, -0.289784, 1.24249, 0.0250489, 3.68849, 5.10704, -3.47174, -22.3011)
+
+[node name="tree3" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(0.783198, -0.01182, -0.849756, -0.0546043, 1.07989, -0.0777098, 0.781479, 0.0873015, 0.846196, -10.9742, -5.19832, -5.32513)
+
+[node name="tree4" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-0.911684, -0.0200197, -0.844137, -0.0628808, 0.250192, -0.0807077, 0.769838, -0.00327255, -1.00626, -10.9742, -2.57988, -1.03448)
+
+[node name="tree5" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-1.17446, -0.0157013, -0.227912, -0.0628808, 0.250192, -0.0807077, 0.210858, -0.0128439, -1.29352, -10.9742, -2.57988, -4.03448)
+
+[node name="tree6" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-0.985672, -0.138694, -0.157023, -0.641687, 0.208822, -0.183851, 0.210858, -0.0128439, -1.29352, -8.97423, -1.57988, -4.03448)
+
+[node name="tree7" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-0.0822771, -0.334301, -1.62836, -0.698431, 0.0597926, -0.107429, 0.0744235, 0.191548, -2.80838, -8.97423, -3.03805, -9.03448)
+
+[node name="tree23" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-0.11552, -0.27187, -2.26696, -0.697053, 0.0567489, 0.277009, 0.029784, 0.273658, -2.3096, -6.97423, -1.03805, -9.03448)
+
+[node name="tree24" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(10.1537, -0.00618458, 1.06507, 2.72068, 0.0230812, -3.97489, 0, 0.0891787, 1.10264, -6.97423, 0.573543, -32.33)
+
+[node name="tree22" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(0.233937, 0.245969, -2.27969, -0.650622, 0.148619, -0.295615, 0.148589, 0.263504, 2.29472, -21.9742, -5.12229, -18.0345)
+
+[node name="tree12" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-1.08026, -0.158326, 0.199792, -0.164155, 1.07152, -1.71697e-08, -0.182131, -0.0266935, -1.18501, -5.2155, -7.22378, -34.5711)
+
+[node name="tree13" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-1.08026, -0.158326, 0.199792, -0.164155, 1.07152, -1.71697e-08, -0.182131, -0.0266935, -1.18501, -10.0796, -8.04093, -35.3912)
+
+[node name="tree14" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-3.11037, -0.0389975, 0.681758, -0.131143, 1.35437, -0.290986, -0.527993, -0.106668, -3.94392, -12.0747, -8.04093, -23.5582)
+
+[node name="tree15" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-3.11037, -0.0389975, 0.681758, -0.131143, 1.35437, -0.290986, -0.527993, -0.106668, -3.94392, -21.8029, -9.67522, -25.1984)
+
+[node name="tree16" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-2.65454, -0.0264287, 2.17171, -0.0891702, 1.35854, -0.0319153, -1.70758, -0.0298583, -3.3744, -26.5502, -10.1655, -14.8435)
+
+[node name="tree17" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(-0.623192, -0.148017, 0.97987, -0.181868, 1.06731, 0.0622101, -0.897578, -0.113489, -0.692933, -7.80536, -9.24073, -28.8987)
+
+[node name="tree18" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(1.02503, -0.021388, 0.66691, 0.0869604, 0.2501, 0.0583341, -0.607884, -0.00028726, 1.13291, -7.51401, -6.65748, -33.2008)
+
+[node name="tree19" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(1.18773, -0.0271804, 0.019674, 0.129906, 0.249394, -0.0423751, -0.013583, 0.00844264, 1.31509, -8.01277, -6.65748, -30.2425)
+
+[node name="tree20" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(1.09735, 0.0991366, -0.0326659, -0.471971, 0.228681, -0.155717, -0.028821, 0.0297395, 1.30627, -10.1196, -5.99779, -30.5977)
+
+[node name="tree21" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
+transform = Transform3D(0.20497, 0.347426, 1.13453, -0.675594, 0.113623, 0.160138, -0.0409162, -0.135676, 3.03929, -11.0584, -5.33899, -25.6855)
+
+[node name="Control" type="Control" parent="SubViewportContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Control/ColorRect"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "10C     28/06/2025      8:48 PM     CAMERA1"
+label_settings = SubResource("LabelSettings_21sg1")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport"]
+stream = ExtResource("3_6gkcm")
+autoplay = true
+bus = &"cam_audio"
