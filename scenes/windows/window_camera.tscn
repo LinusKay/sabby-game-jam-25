@@ -7,14 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://d2q0t4cjcym6o" path="res://shader/assets/bayer16tile2.png" id="5_n6jhp"]
 [ext_resource type="Texture2D" uid="uid://bbpfrl8nb8a2k" path="res://shader/assets/palette_rising_sun.png" id="5_npshg"]
 [ext_resource type="Script" path="res://scripts/scene_screen.gd" id="6_3kelh"]
-[ext_resource type="Script" path="res://scenes/windows/window_camera_sub_viewport_container.gd" id="7_8g6fy"]
+[ext_resource type="Script" path="res://scripts/window_camera_sub_viewport_container.gd" id="7_8g6fy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_glgxu"]
 shader = ExtResource("3_8p8ry")
 shader_parameter/u_bit_depth = 256
 shader_parameter/u_contrast = 1.0
 shader_parameter/u_offset = -0.3
-shader_parameter/u_dither_size = 1
+shader_parameter/u_dither_size = 2
 shader_parameter/u_dither_tex = ExtResource("5_n6jhp")
 shader_parameter/u_color_tex = ExtResource("5_npshg")
 

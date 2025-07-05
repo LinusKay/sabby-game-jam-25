@@ -1,8 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://c2c6uxhcyy0fa"]
+[gd_scene load_steps=16 format=3 uid="uid://dt6gbv35io6rm"]
 
 [ext_resource type="Texture2D" uid="uid://bfiserp5a8woy" path="res://materials/sky/satara_night_1k.exr" id="1_3p0ty"]
+[ext_resource type="Script" path="res://scripts/viewport_limitfps.gd" id="1_qduni"]
 [ext_resource type="PackedScene" uid="uid://c4opnd8jh6snm" path="res://models/tree/tree.glb" id="2_r62b6"]
-[ext_resource type="AudioStream" uid="uid://ci435tjbqvbfp" path="res://audio/sfx/birds-chirping-363659.mp3" id="3_6gkcm"]
+[ext_resource type="PackedScene" uid="uid://bocpxtpvadx2e" path="res://scenes/models/deer_female_anim_idle.tscn" id="3_o5mif"]
+[ext_resource type="PackedScene" uid="uid://5phbcug1lpne" path="res://scenes/models/tree_2.tscn" id="5_wfl7w"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_egqcf"]
 
@@ -85,6 +87,9 @@ handle_input_locally = false
 audio_listener_enable_3d = true
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
+script = ExtResource("1_qduni")
+limit_fps = true
+target_fps = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(0.870387, -0.174057, -0.460576, 0.167239, 0.984328, -0.055942, 0.463095, -0.0283353, 0.885856, -19.8028, 0.124828, 0.337045)
@@ -131,9 +136,6 @@ transform = Transform3D(1.10761, -0.016716, 0, 0.0170903, 1.08335, 0, 0, 0, 1.20
 [node name="tree8" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
 transform = Transform3D(1.10761, -0.016716, 0, 0.0170903, 1.08335, 0, 0, 0, 1.20174, -7.89296, -3.47174, 0.698928)
 
-[node name="tree9" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
-transform = Transform3D(3.13388, -0.165911, 0.031194, 0.386217, 1.34535, -0.289784, 0.00353817, 0.0987002, 4.00237, -7.89296, -3.47174, -11.3011)
-
 [node name="tree10" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
 transform = Transform3D(3.13388, -0.165911, 0.031194, 0.386217, 1.34535, -0.289784, 0.00353817, 0.0987002, 4.00237, 2.10704, -3.47174, -11.3011)
 
@@ -154,6 +156,10 @@ transform = Transform3D(-0.985672, -0.138694, -0.157023, -0.641687, 0.208822, -0
 
 [node name="tree7" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
 transform = Transform3D(-0.0822771, -0.334301, -1.62836, -0.698431, 0.0597926, -0.107429, 0.0744235, 0.191548, -2.80838, -8.97423, -3.03805, -9.03448)
+visible = false
+
+[node name="tree9_sway2" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("5_wfl7w")]
+transform = Transform3D(-0.0822771, -0.334301, -1.62836, -0.698431, 0.0597926, -0.10743, 0.0744235, 0.191548, -2.80838, -8.97423, -3.03805, -9.03448)
 
 [node name="tree23" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
 transform = Transform3D(-0.11552, -0.27187, -2.26696, -0.697053, 0.0567489, 0.277009, 0.029784, 0.273658, -2.3096, -6.97423, -1.03805, -9.03448)
@@ -163,6 +169,10 @@ transform = Transform3D(10.1537, -0.00618458, 1.06507, 2.72068, 0.0230812, -3.97
 
 [node name="tree22" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
 transform = Transform3D(0.233937, 0.245969, -2.27969, -0.650622, 0.148619, -0.295615, 0.148589, 0.263504, 2.29472, -21.9742, -5.12229, -18.0345)
+visible = false
+
+[node name="tree9_sway" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("5_wfl7w")]
+transform = Transform3D(0.233937, 0.245969, -2.27969, -0.650622, 0.148619, -0.295616, 0.148589, 0.263504, 2.29472, -21.9742, -5.12229, -18.0345)
 
 [node name="tree12" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
 transform = Transform3D(-1.08026, -0.158326, 0.199792, -0.164155, 1.07152, -1.71697e-08, -0.182131, -0.0266935, -1.18501, -5.2155, -7.22378, -34.5711)
@@ -193,6 +203,12 @@ transform = Transform3D(1.09735, 0.0991366, -0.0326659, -0.471971, 0.228681, -0.
 
 [node name="tree21" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("2_r62b6")]
 transform = Transform3D(0.20497, 0.347426, 1.13453, -0.675594, 0.113623, 0.160138, -0.0409162, -0.135676, 3.03929, -11.0584, -5.33899, -25.6855)
+
+[node name="deer-female-anim-idle" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("3_o5mif")]
+transform = Transform3D(0.594093, 0, -0.370208, 0, 0.7, 0, 0.370208, 0, 0.594093, -18.5422, -4.71487, -12.2748)
+
+[node name="tree25" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("5_wfl7w")]
+transform = Transform3D(3.15759, 0, 0, 0, 1.35913, 0, 0, 0, 4.01297, -7.89296, -3.47174, -11.3011)
 
 [node name="Control" type="Control" parent="SubViewportContainer/SubViewport"]
 layout_mode = 3
@@ -227,8 +243,3 @@ text = "10C     28/06/2025      8:48 PM     CAMERA1"
 label_settings = SubResource("LabelSettings_21sg1")
 horizontal_alignment = 1
 vertical_alignment = 2
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport"]
-stream = ExtResource("3_6gkcm")
-autoplay = true
-bus = &"cam_audio"

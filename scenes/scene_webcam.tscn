@@ -9,7 +9,7 @@
 [ext_resource type="ArrayMesh" uid="uid://cdbycvvh00sed" path="res://models/furniture/lampRoundFloor.obj" id="6_nkvis"]
 [ext_resource type="Script" path="res://scripts/clickable_radio.gd" id="7_glbrn"]
 [ext_resource type="Script" path="res://scripts/clickable.gd" id="7_q211v"]
-[ext_resource type="AudioStream" uid="uid://cegq00oy5lp3a" path="res://audio/music/synapse2.mp3" id="8_u4qju"]
+[ext_resource type="AudioStream" uid="uid://b6b8mc64vk3x2" path="res://audio/music/snowcap.ogg" id="8_yoggq"]
 [ext_resource type="Texture2D" uid="uid://50272s7t6g5o" path="res://sprites/msupermario.png" id="9_dgcq7"]
 [ext_resource type="Texture2D" uid="uid://clbuqamap42u0" path="res://sprites/eventwall.png" id="10_r8pel"]
 
@@ -19,26 +19,28 @@ dof_blur_far_enabled = true
 dof_blur_far_distance = 70.0
 dof_blur_far_transition = 10.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fk68l"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sd1dy"]
 albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_x40uv"]
-material = SubResource("StandardMaterial3D_fk68l")
+material = SubResource("StandardMaterial3D_sd1dy")
 size = Vector2(20, 10)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_i8sur"]
 panorama = ExtResource("3_oco1q")
 
-[sub_resource type="Sky" id="Sky_fau4a"]
+[sub_resource type="Sky" id="Sky_b05nw"]
 sky_material = SubResource("PanoramaSkyMaterial_i8sur")
 
 [sub_resource type="Environment" id="Environment_xycl6"]
 background_mode = 2
-sky = SubResource("Sky_fau4a")
+sky = SubResource("Sky_b05nw")
 reflected_light_source = 2
 tonemap_mode = 2
 tonemap_exposure = 0.42
 glow_enabled = true
+glow_blend_mode = 1
+glow_hdr_threshold = 0.0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_frnww"]
 _surfaces = [{
@@ -146,7 +148,7 @@ script = ExtResource("7_glbrn")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Radio"]
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
-stream = ExtResource("8_u4qju")
+stream = ExtResource("8_yoggq")
 bus = &"cam_audio"
 
 [node name="LampRoundFloor" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]

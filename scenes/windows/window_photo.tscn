@@ -1,9 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://dua5bv8omg16r"]
+[gd_scene load_steps=10 format=3 uid="uid://dua5bv8omg16r"]
 
 [ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="1_dlvp3"]
 [ext_resource type="Script" path="res://scripts/window_photo.gd" id="2_nnwss"]
 [ext_resource type="FontFile" uid="uid://cfrjh8tsnucol" path="res://style/YujiSyuku-Regular.ttf" id="2_usjfm"]
 [ext_resource type="Texture2D" uid="uid://cgv0yatj3lew8" path="res://sprites/image-tango-feet.png" id="3_ixtdl"]
+[ext_resource type="Script" path="res://scripts/scene_camera_subviewport.gd" id="5_70dyr"]
+[ext_resource type="Shader" path="res://shader/dither.gdshader" id="5_fos1w"]
+[ext_resource type="Texture2D" uid="uid://bbpfrl8nb8a2k" path="res://shader/assets/palette_rising_sun.png" id="6_xkxcb"]
+[ext_resource type="Texture2D" uid="uid://d2q0t4cjcym6o" path="res://shader/assets/bayer16tile2.png" id="7_jpsjh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4e3ve"]
+shader = ExtResource("5_fos1w")
+shader_parameter/u_bit_depth = 256
+shader_parameter/u_contrast = 1.0
+shader_parameter/u_offset = -0.3
+shader_parameter/u_dither_size = 2
+shader_parameter/u_dither_tex = ExtResource("7_jpsjh")
+shader_parameter/u_color_tex = ExtResource("6_xkxcb")
 
 [node name="WindowPhoto" type="Window"]
 auto_translate_mode = 1
@@ -15,7 +28,25 @@ theme_override_fonts/title_font = ExtResource("2_usjfm")
 script = ExtResource("2_nnwss")
 photo = ExtResource("3_ixtdl")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_4e3ve")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+audio_listener_enable_3d = true
+physics_object_picking = true
+size = Vector2i(300, 300)
+render_target_update_mode = 4
+script = ExtResource("5_70dyr")
+
+[node name="TextureRect" type="TextureRect" parent="SubViewportContainer/SubViewport"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

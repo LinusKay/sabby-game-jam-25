@@ -6,7 +6,7 @@ var file_name = "PLACEHOLDER"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	title = "Photo - " + file_name
-	$TextureRect.texture = photo
+	$SubViewportContainer/SubViewport/TextureRect.texture = photo
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -3,6 +3,7 @@ extends ItemList
 @onready var icon_atlas_tex: CompressedTexture2D = preload("res://sprites/image-tango-feet.png")
 @onready var WindowDirectoryList: PackedScene = preload("res://scenes/windows/window_directory_list.tscn")
 @onready var WindowCamera: PackedScene = preload("res://scenes/windows/window_camera.tscn")
+@onready var WindowPassword: PackedScene = preload("res://scenes/windows/window_password.tscn")
 
 var icon_pc_online = AtlasTexture.new()
 var icon_pc_offline = AtlasTexture.new()
@@ -15,18 +16,20 @@ var items = [
 		"type": "computer",
 		"icon": icon_pc_offline,
 		"action": "Connect to PC-1",
-		"online": false
+		"online": false,
+		"visible": true
 	},
 	{
 		"name": "fs23590",
 		"type": "directory",
 		"icon": icon_directory,
 		"action": "Connect to fs23590",
+		"password": null,
 		"files": [
 			{
 				"name": "file_1",
 				"type": "txt",
-				"content": "This is a text file :3"
+				"content": "\"the storm which brewed on the horizon spat and flicked its many tongues with a rabid ferocity. cowering, awe-struck, horrified. from the ground the behemoth looming before us, towering above us, showered us with the feeling of a grand insignificance.\""
 			},
 			{
 				"name": "PASSWORDS",
@@ -34,79 +37,54 @@ var items = [
 				"content": "hunter\ncr0c0dile"
 			},
 			{
-				"name": "Holiday",
+				"name": "sfgsdf",
 				"type": "img",
-				"photo": preload("res://sprites/sunday.jpg")
-			}
-		],
-	},
-	{
-		"name": "FILE_Sabby",
-		"type": "directory",
-		"icon": icon_directory,
-		"action": "Connect to fs23590",
-		"files": [
-			{
-				"name": "JAM_INFO",
-				"type": "txt",
-				"content": "SABBY JAM 25
-Friday 27th June — 1PM until Sunday 29th June 6PM
-
-You’ll be given a theme and have 3 days to hangout and make whatever silly projects you want around it! Games, Writing, Music, Objects, Food or whatever you wanna make is cool. 
-
-This will be our last jam at 141 Victoria Parade, so don’t miss out!
-
-The theme for Sabby Jam 25 is…
-
-VISION
-What can you see?
-What’s the future?
-What’s on tele vision"
+				"photo": preload("res://sprites/Photo_2022-09-12_214526.png")
 			},
 			{
-				"name": "SabbyJamsticker_2_trans_White",
+				"name": "stolk3",
 				"type": "img",
-				"photo": preload("res://sprites/SabbyJamsticker_2_trans_White.png")
+				"photo": preload("res://sprites/stolk3.png")
 			},
 			{
-				"name": "SabbyJamsticker_1-01",
+				"name": "face",
 				"type": "img",
-				"photo": preload("res://sprites/SabbyJamsticker_1-01.png")
-			},
-			{
-				"name": "IMG_9768-export",
-				"type": "img",
-				"photo": preload("res://sprites/IMG_9768-export.png")
+				"photo": preload("res://sprites/hbfjghbjsd.jpg")
 			},
 		],
+		"visible": true
 	},
 	{
 		"name": "DVRS-iCam",
 		"type": "camera",
 		"icon": icon_camera,
 		"action": "Connect to DVRS-iCam",
-		"scene": preload("res://scenes/scene_street.tscn")
+		"scene": preload("res://scenes/scene_street.tscn"),
+		"visible": true
 	},
 	{
 		"name": "ProView-84fh7236",
 		"type": "camera",
 		"icon": icon_camera,
 		"action": "Connect to ProView-84fh7236",
-		"scene": preload("res://scenes/scene_doorbell.tscn")
+		"scene": preload("res://scenes/scene_doorbell.tscn"),
+		"visible": true
 	},
 	{
 		"name": "TrailNE-CAM1",
 		"type": "camera",
 		"icon": icon_camera,
 		"action": "Connect to TrailNE-CAM1",
-		"scene": preload("res://scenes/scene_trailcam.tscn")
+		"scene": preload("res://scenes/scene_trailcam.tscn"),
+		"visible": true
 	},
 	{
 		"name": "HOME-CAM",
 		"type": "camera",
 		"icon": icon_camera,
 		"action": "Connect to HOME-CAM",
-		"scene": preload("res://scenes/scene_webcam.tscn")
+		"scene": preload("res://scenes/scene_webcam.tscn"),
+		"visible": true
 	},
 	
 ]
@@ -122,20 +100,26 @@ func _ready() -> void:
 	icon_camera.atlas = icon_atlas_tex
 	icon_camera.region = Rect2(57, 184, 16, 16)
 	
+	render_items()
+
+func render_items() -> void:
 	clear()
 	for item in items:
-		if item.type == "computer":
-			if item.online:
+		if item.visible:
+			if item.type == "computer":
+				if item.online:
+					add_item(item.name, item.icon)
+				else:
+					add_item(item.name, item.icon, false)
+			else: 
 				add_item(item.name, item.icon)
-			else:
-				add_item(item.name, item.icon, false)
-		else: 
-			add_item(item.name, item.icon)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("enter"):
+		print("reload")
+		#items[0].visible = true
+		render_items()
 
 
 func _on_item_activated(index: int) -> void:
@@ -155,13 +139,21 @@ func _on_item_activated(index: int) -> void:
 			window_camera.camera_name = camera_name
 			var window_camera_subviewport = window_camera.get_node("SubViewportContainer/SubViewport")
 			window_camera_subviewport.add_child(camera_scene)
-			#var scene_screen = window_camera.get_node("SubViewportContainer/SubViewport/SceneScreen")
-			#scene_screen.scene = window_camera.get_node("Scene")
 			get_parent().add_child(window_camera)
 			
 		elif item_type == "directory":
-			var directory_files = items[get_selected_items()[0]].files
+			var directory_password = items[get_selected_items()[0]].password
 			var directory_name = items[get_selected_items()[0]].name
+			if directory_password != null:
+				var window_password = WindowPassword.instantiate()
+				window_password.password = directory_password
+				window_password.title = "Locked: " + directory_name
+				get_parent().add_child(window_password)
+				var result = await window_password.password_result
+				if result == false:
+					return
+					
+			var directory_files = items[get_selected_items()[0]].files
 			var window_directory_list = WindowDirectoryList.instantiate()
 			window_directory_list.files = directory_files
 			window_directory_list.directory_name = directory_name
