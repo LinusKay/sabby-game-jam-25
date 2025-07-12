@@ -86,6 +86,14 @@ var items = [
 		"scene": preload("res://scenes/scene_webcam.tscn"),
 		"visible": true
 	},
+	{
+		"name": "2dtest",
+		"type": "camera",
+		"icon": icon_camera,
+		"action": "Connect to HOME-CAM",
+		"scene": preload("res://scenes/scene_2dtest.tscn"),
+		"visible": true
+	},
 	
 ]
 

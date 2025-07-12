@@ -1,29 +1,36 @@
-[gd_scene load_steps=14 format=3 uid="uid://bk4n30o3ljfug"]
+[gd_scene load_steps=20 format=3 uid="uid://bk4n30o3ljfug"]
 
 [ext_resource type="Script" path="res://scripts/screen.gd" id="1_u8yql"]
+[ext_resource type="Texture2D" uid="uid://dql81q3y6xpj" path="res://shader/assets/palette_worm.png" id="4_517ij"]
 [ext_resource type="Shader" path="res://shader/dither.gdshader" id="4_ynifi"]
-[ext_resource type="Texture2D" uid="uid://bbpfrl8nb8a2k" path="res://shader/assets/palette_rising_sun.png" id="5_5p011"]
 [ext_resource type="Texture2D" uid="uid://d2q0t4cjcym6o" path="res://shader/assets/bayer16tile2.png" id="6_jcxvg"]
 [ext_resource type="Script" path="res://scripts/sub_viewport_container.gd" id="6_t2cni"]
-[ext_resource type="Texture2D" uid="uid://cgv0yatj3lew8" path="res://sprites/image-tango-feet.png" id="8_bkykc"]
+[ext_resource type="Script" path="res://scripts/root_sub_viewport.gd" id="7_swnu0"]
+[ext_resource type="FontFile" uid="uid://bxd7ohu8flja0" path="res://style/NotJamOldStyle14.ttf" id="8_rdbbf"]
 [ext_resource type="Theme" uid="uid://bwxvugjnwyt3m" path="res://style/ui_theme_oled.res" id="9_6nt26"]
+[ext_resource type="Texture2D" uid="uid://5b0g45h0nw7f" path="res://sprites/portrait8.png" id="9_ru8we"]
 [ext_resource type="Script" path="res://scripts/console.gd" id="9_uwm73"]
+[ext_resource type="Texture2D" uid="uid://g3tcruobn2jg" path="res://sprites/mask3.png" id="10_gyt8q"]
 [ext_resource type="Script" path="res://scripts/desktop_icon_connect.gd" id="10_ijbvd"]
 [ext_resource type="AudioStream" uid="uid://b2vd1gik1n483" path="res://audio/music/worm_ambience.ogg" id="10_jvmir"]
+[ext_resource type="Texture2D" uid="uid://ojmu4cm1eq0i" path="res://sprites/mask8.png" id="10_kys1y"]
 [ext_resource type="AudioStream" uid="uid://cxladuj4f2ffk" path="res://audio/music/worm_ambience_bloops.ogg" id="11_fv38n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_glgxu"]
 shader = ExtResource("4_ynifi")
 shader_parameter/u_bit_depth = 256
-shader_parameter/u_contrast = 0.7
-shader_parameter/u_offset = -0.3
+shader_parameter/u_contrast = 1.0
+shader_parameter/u_offset = 0.0
 shader_parameter/u_dither_size = 1
 shader_parameter/u_dither_tex = ExtResource("6_jcxvg")
-shader_parameter/u_color_tex = ExtResource("5_5p011")
+shader_parameter/u_color_tex = ExtResource("4_517ij")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_puoe0"]
-atlas = ExtResource("8_bkykc")
-region = Rect2(624, 609, 22, 22)
+[sub_resource type="Theme" id="Theme_g21ml"]
+default_font = ExtResource("8_rdbbf")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xcbwk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y6q5f"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -54,6 +61,7 @@ audio_listener_enable_3d = true
 physics_object_picking = true
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
+script = ExtResource("7_swnu0")
 
 [node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport"]
 anchors_preset = 15
@@ -84,22 +92,37 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -45.0
+offset_left = -164.0
 offset_top = -50.0
-offset_right = 45.0
+offset_right = 164.0
 offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_g21ml")
+theme_override_constants/outline_size = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xcbwk")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y6q5f")
 allow_reselect = true
-item_count = 1
+item_count = 3
+max_columns = 3
+same_column_width = true
+fixed_column_width = 100
 icon_mode = 0
 icon_scale = 2.0
+fixed_icon_size = Vector2i(22, 22)
 item_0/text = "CONNECT"
-item_0/icon = SubResource("AtlasTexture_puoe0")
+item_0/icon = ExtResource("10_kys1y")
+item_0/selectable = false
+item_1/text = "..."
+item_1/icon = ExtResource("9_ru8we")
+item_1/selectable = false
+item_1/disabled = true
+item_2/text = "SETTINGS"
+item_2/icon = ExtResource("10_gyt8q")
+item_2/selectable = false
 script = ExtResource("10_ijbvd")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-visible = false
 stream = ExtResource("10_jvmir")
 volume_db = -10.0
 autoplay = true
@@ -107,7 +130,6 @@ bus = &"music"
 
 [node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_fv38n")
-autoplay = true
 bus = &"music"
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
