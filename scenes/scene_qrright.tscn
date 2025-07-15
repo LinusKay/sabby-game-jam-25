@@ -1,0 +1,120 @@
+[gd_scene load_steps=8 format=3 uid="uid://dpsp8qnoqsjya"]
+
+[ext_resource type="Texture2D" uid="uid://wjro2hlftjvs" path="res://sprites/qrright.png" id="1_7vs4b"]
+[ext_resource type="Texture2D" uid="uid://d3e71ve8p33xu" path="res://sprites/hand-right.png" id="1_dtlql"]
+[ext_resource type="Texture2D" uid="uid://bwbaafwm80404" path="res://sprites/background_house.png" id="2_4b4w3"]
+[ext_resource type="Texture2D" uid="uid://e14k2rjlmwcp" path="res://sprites/decorations-corner1.png" id="3_46epe"]
+[ext_resource type="Texture2D" uid="uid://d18nlhq8w1d2n" path="res://sprites/mask1.png" id="4_cieup"]
+[ext_resource type="Texture2D" uid="uid://c75by6ijnnf61" path="res://sprites/drawing_bird.png" id="6_8mbjn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qvty"]
+atlas = ExtResource("4_cieup")
+region = Rect2(288, 0, 272, 642)
+
+[node name="Scene" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 600.0
+offset_bottom = 300.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(600, 300)
+render_target_update_mode = 4
+
+[node name="Control" type="Control" parent="SubViewportContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect2" type="TextureRect" parent="SubViewportContainer/SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -175.0
+offset_right = 500.0
+offset_bottom = 175.0
+grow_vertical = 2
+texture = ExtResource("1_dtlql")
+expand_mode = 1
+
+[node name="TextureRect6" type="TextureRect" parent="SubViewportContainer/SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -125.0
+offset_right = 200.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_4b4w3")
+expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="SubViewportContainer/SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -150.0
+offset_right = 154.0
+offset_bottom = 150.0
+grow_vertical = 2
+texture = ExtResource("1_7vs4b")
+
+[node name="TextureRect3" type="TextureRect" parent="SubViewportContainer/SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -93.0
+offset_top = -71.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("3_46epe")
+flip_h = true
+
+[node name="TextureRect4" type="TextureRect" parent="SubViewportContainer/SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -93.0
+offset_bottom = 71.0
+grow_horizontal = 0
+texture = ExtResource("3_46epe")
+flip_h = true
+flip_v = true
+
+[node name="TextureRect5" type="TextureRect" parent="SubViewportContainer/SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 116.0
+offset_top = -110.0
+offset_right = 405.0
+offset_bottom = 532.0
+grow_vertical = 2
+scale = Vector2(0.35, 0.35)
+texture = SubResource("AtlasTexture_6qvty")
+
+[node name="TextureRect7" type="TextureRect" parent="SubViewportContainer/SubViewport/Control"]
+visible = false
+offset_left = 415.0
+offset_top = 100.0
+offset_right = 572.0
+offset_bottom = 168.0
+texture = ExtResource("6_8mbjn")
+flip_h = true

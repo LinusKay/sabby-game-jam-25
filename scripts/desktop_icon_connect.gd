@@ -2,6 +2,7 @@ extends ItemList
 
 @onready var WindowConnections = preload("res://scenes/windows/window_connections.tscn")
 @onready var MenuSettings = preload("res://scenes/settings.tscn")
+@onready var WindowHeralder = preload("res://scenes/scene_heralder.tscn")
 
 var connections_open = false
 
@@ -22,6 +23,9 @@ func _on_item_activated(index: int) -> void:
 			get_parent().add_child(window_connections)
 			connections_open = true
 			set_item_disabled(0, true)
+	elif index == 1:
+		var window_heralder = WindowHeralder.instantiate()
+		get_parent().add_child(window_heralder)
 	elif index == 2:
 		var menu_settings = MenuSettings.instantiate()
 		get_parent().add_child(menu_settings)

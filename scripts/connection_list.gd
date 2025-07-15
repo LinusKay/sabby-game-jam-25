@@ -24,7 +24,7 @@ var items = [
 		"type": "directory",
 		"icon": icon_directory,
 		"action": "Connect to fs23590",
-		"password": null,
+		"password": "cr0codile",
 		"files": [
 			{
 				"name": "file_1",
@@ -92,6 +92,22 @@ var items = [
 		"icon": icon_camera,
 		"action": "Connect to HOME-CAM",
 		"scene": preload("res://scenes/scene_2dtest.tscn"),
+		"visible": true
+	},
+	{
+		"name": "qrleft",
+		"type": "camera",
+		"icon": icon_camera,
+		"action": "Connect to qrleft",
+		"scene": preload("res://scenes/scene_qrleft.tscn"),
+		"visible": true
+	},
+	{
+		"name": "qrright",
+		"type": "camera",
+		"icon": icon_camera,
+		"action": "Connect to qrright",
+		"scene": preload("res://scenes/scene_qrright.tscn"),
 		"visible": true
 	},
 	
